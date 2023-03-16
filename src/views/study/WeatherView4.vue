@@ -24,7 +24,7 @@ import axios from "axios"
 // ref和reactive都为了实现响应式数据，onMounted类似之前的mounted，在加载页面时自动执行代码
 import {ref, reactive, onMounted} from 'vue'
 // vue3语法糖写法的生命周期早(setup()),所以是没有产生this，而且加载全局变量也不行，所以直接在本地引入settings.js
-import settings from '@/settings.js'
+import settings from '@/settings'
 
 // ref: 一般定义str、int、数组（py列表）都用ref,js中调用需要添加.value，html中直接调用
 // reactive: 用于定义对象（py字典）和方法，js和html中直接调用名称.元素名称调用

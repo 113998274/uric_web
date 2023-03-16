@@ -1,17 +1,4 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/weather">Weather</router-link> |
-    <router-link to="/weather2">Weather2</router-link> |
-    <router-link to="/weather3">Weather3</router-link> |
-    <router-link to="/weather4">Weather4</router-link>
-  </nav>
-  <nav>
-    子路由配置 |
-    <router-link to="/parent">parent</router-link> |
-    <router-link to="/parent/children1">children1</router-link>
-  </nav>
   <router-view/>
 </template>
 
