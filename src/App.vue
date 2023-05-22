@@ -1,5 +1,11 @@
 <template>
-  <router-view/>
+  <!--  <router-view/>-->
+
+  <router-view v-slot="{ Component }">
+    <transition name="fade">
+      <component :is="Component"/>
+    </transition>
+  </router-view>
 </template>
 
 <style>
@@ -22,5 +28,15 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

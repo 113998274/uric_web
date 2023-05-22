@@ -1,11 +1,22 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import useUsersStore from '@/store/users'
+
+import LoginView from '../views/LoginView.vue'
 import WeatherView from '../views/study/WeatherView.vue'
 import WeatherView2 from '../views/study/WeatherView2.vue'
 import WeatherView3 from '../views/study/WeatherView3.vue'
 import WeatherView4 from '../views/study/WeatherView4.vue'
+import TestUserView from '../components/TestUserView'
 import Parent from '../views/study/parent/Parent.vue'
 import Children1 from '../views/study/parent/Children.vue'
 import EchartsView from '../views/study/EchartsView.vue'
+
+// cmdb
+import InstanceListView from '../views/cmdb/InstanceListView.vue'
+// deploy
+import RemoteInstView from '../views/deploy/RemoteInstView.vue'
+import PlayBookView from '../views/deploy/PlayBookView.vue'
+import PlayBookRunView from '../views/deploy/PlayBookRunView.vue'
 
 const routes = [
     {
@@ -16,9 +27,10 @@ const routes = [
             {
                 path: '',
                 name: 'Index_page',
-                component: WeatherView4,
+                component: TestUserView,
                 meta: {
                     title: '主页',
+                    authenticated: true,
                 },
             },
             {
@@ -27,7 +39,72 @@ const routes = [
                 component: EchartsView,
                 meta: {
                     title: 'echarts图形测试',
+                    authenticated: true,
+                    is_superuser: true,
                 }
+            },
+            {
+                path: 'cmdb',
+                name: 'cmdb',
+                // component: TestUserView,
+                meta: {
+                    title: '资产列表总览',
+                    authenticated: true,
+                },
+                children: [
+                    {
+                        path: 'instance-list',
+                        name: 'instance-list',
+                        component: InstanceListView,
+                        meta: {
+                            title: '资产列表-服务器列表',
+                            authenticated: true,
+                        },
+                    },
+                ]
+            },
+            {
+                path: 'deploy',
+                name: 'deploy',
+                // component: TestUserView,
+                meta: {
+                    title: '部署工具',
+                    authenticated: true,
+                    is_superuser: true,
+                },
+                children: [
+                    {
+                        path: 'remote-inst',
+                        name: 'remote-inst',
+                        component: RemoteInstView,
+                        meta: {
+                            title: '部署工具-远程主机管理',
+                            authenticated: true,
+                            is_superuser: true,
+                        },
+                    },
+                    {
+                        path: 'playbook',
+                        name: 'playbook',
+                        component: PlayBookView,
+                        meta: {
+                            title: '部署工具-playbook管理',
+                            authenticated: true,
+                            is_superuser: true,
+                        },
+                    },
+                    {
+                        path: 'playbook-run',
+                        name: 'playbook-run',
+                        component: PlayBookRunView,
+                        meta: {
+                            title: '部署工具-playbook运行',
+                            authenticated: true,
+                            is_superuser: true,
+                        },
+                    },
+
+                ]
             },
         ]
     },
@@ -35,9 +112,9 @@ const routes = [
     {
         path: '/login',
         name: 'login',
-        component: WeatherView4,
+        component: LoginView,
         meta: {
-            title: 'v2版本 vue3写法 添加ant-design-vue前端框架做润色',
+            title: 'Login登录页',
         }
     },
     {
@@ -52,6 +129,7 @@ const routes = [
                 component: WeatherView,
                 meta: {
                     title: 'v1版本 原始写法 vue2写法',
+                    authenticated: true,
                 }
             },
             {
@@ -105,7 +183,6 @@ const routes = [
                     },
                 ]
             },
-
         ]
     },
 ]
@@ -115,12 +192,40 @@ const router = createRouter({
     routes
 })
 
-// 路由发生变化修改页面title
+
+// 全局前置路由守卫，路由跳转前触发
 router.beforeEach((to, from, next) => {
+    // 实例化user store
+    const UsersStore = useUsersStore()
+    // console.log(3214, UsersStore.useData)
+
+    // 路由守卫：限制登录与管理员权限页面
+    if (to.meta.is_superuser) {     // 判断该页面是否需要管理员权限
+        if (UsersStore.useData.is_superuser === 'true') {  // 判断是否管理员，是则正常路由，注意这里返回是字符串
+            next();
+        } else {    // 否则弹出提示，并路由至主页
+            alert('无访问权限');
+            next({
+                path: from.fullPath,
+            });
+        }
+    } else if (to.meta.authenticated) {     // 判断该页面是否需要登录权限
+        if (UsersStore.isLoggedIn) {     // 判断是否已登录，是则正常路由
+            next();
+        } else {    // 否则路由至登录页
+            next({
+                name: 'login',
+                query: {redirect: to.fullPath}    // 用于登录成功后返回跳转到登录页前的路由的配置
+            });
+        }
+    } else {    // 无限制则正常路由
+        next();
+    }
+
+    // 路由发生变化修改页面title
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    next()
 })
 
 export default router
