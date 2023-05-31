@@ -17,6 +17,7 @@ import InstanceListView from '../views/cmdb/InstanceListView.vue'
 import RemoteInstView from '../views/deploy/RemoteInstView.vue'
 import PlayBookView from '../views/deploy/PlayBookView.vue'
 import PlayBookRunView from '../views/deploy/PlayBookRunView.vue'
+import AdHocView from '../views/deploy/AdHocView.vue'
 
 const routes = [
     {
@@ -99,6 +100,16 @@ const routes = [
                         component: PlayBookRunView,
                         meta: {
                             title: '部署工具-playbook运行',
+                            authenticated: true,
+                            is_superuser: true,
+                        },
+                    },
+                    {
+                        path: 'ad-hoc',
+                        name: 'ad-hoc',
+                        component: AdHocView,
+                        meta: {
+                            title: '部署工具-ad-hoc运行',
                             authenticated: true,
                             is_superuser: true,
                         },

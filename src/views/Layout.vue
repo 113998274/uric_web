@@ -15,8 +15,7 @@
                 <span>主页</span>
               </router-link>
             </a-menu-item>
-            <a-menu-item key="2">nav 2</a-menu-item>
-            <a-menu-item key="3">nav 3</a-menu-item>
+            <a-menu-item key="2">展示</a-menu-item>
           </a-menu>
         </a-col>
         <a-col :span="1" :offset="5">
@@ -145,8 +144,8 @@ let menu_list = ref([
 ])
 
 let selectedKeys1 = ref(['1'])
-let selectedKeys2 = ref(['1'])
-let openKeys = ref(['sub1'])  // 默认展开的下来框
+let selectedKeys2 = ref(['5'])
+let openKeys = ref(['sub3'])  // 默认展开的下来框
 
 // 实例化store
 const UsersStore = useUsersStore()

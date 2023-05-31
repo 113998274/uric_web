@@ -3,6 +3,7 @@ import axios from 'axios'
 // import { useRoute, useRouter } from 'vue-router' // vue3文件中用法，js文件需要用下面import
 import router from '@/router'
 import {defineStore} from 'pinia'
+import {message} from 'ant-design-vue';
 import settings from '@/settings'
 
 
@@ -37,9 +38,13 @@ export const useUsersStore = defineStore(
 
                     })
                     .catch((error) => {     // 失败
+                        for (let i in error.response.data) {
+                            console.log(i, error.response.data[i])
+                            message.error(i + ': ' + error.response.data[i])
+                        }
                         // this.$message.error('用户名或者密码有误，请重新输入！');
                         // console.log('用户名或者密码有误，请重新输入！');
-                        console.log(error);
+                        // console.log(error);
                     })
             },
             // 登出

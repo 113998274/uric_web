@@ -7,7 +7,7 @@ module.exports = defineConfig({
         /* 本地ip地址 */
         //host: "192.168.0.131",
         host: "www.uric.cn", //局域网和本地访问
-        port: "8000",
+        port: "80",
         // hot: true,
         /* 自动打开浏览器 */
         // open: false,
