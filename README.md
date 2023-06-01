@@ -1,4 +1,4 @@
-# uric_web
+# ztops_web
 
 ## Project setup
 ```

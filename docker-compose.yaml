@@ -1,0 +1,13 @@
+version: '3'
+services:
+  uric_web:
+    hostname: uric_web
+    image: uric_web:v1
+    restart: on-failure:3
+    ports:
+      - 80:80
+    environment:
+      LANG: en_US.UTF-8
+      TZ: Asia/Shanghai
+    volumes:
+      - ./config/www.uric.cn.conf:/etc/nginx/conf.d/www.uric.cn.conf
