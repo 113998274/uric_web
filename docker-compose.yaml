@@ -4,10 +4,29 @@ services:
     hostname: uric_web
     image: uric_web:v1
     restart: on-failure:3
+    networks:
+      - uric_network
     ports:
       - 80:80
     environment:
-      LANG: en_US.UTF-8
+      LANG: C.UTF-8
       TZ: Asia/Shanghai
     volumes:
       - ./config/www.uric.cn.conf:/etc/nginx/conf.d/www.uric.cn.conf
+  uric_api:
+    hostname: uric_api
+    image: uric_api:v1
+    restart: on-failure:3
+    networks:
+      - uric_network
+    ports:
+      - 8000:8000
+    environment:
+      LANG: C.UTF-8
+      TZ: Asia/Shanghai
+    volumes:
+      - ./config/settings.py:/data/uric_api/settings.py
+      - ./data/ansible/file:/data/ansible/file
+networks:
+  uric_network:
+    driver: bridge

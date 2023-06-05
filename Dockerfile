@@ -10,7 +10,7 @@ RUN npm run build
 FROM nginx:alpine3.17-slim as production-stage
 # 多阶段构建：这才是最终构建出的images
 MAINTAINER zhangweilong 113998274@qq.com
-ENV LANG en_US.UTF-8
+ENV LANG C.UTF-8
 ENV TZ=Asia/Shanghai
 COPY --from=build-stage /data/dist /usr/share/nginx/html/
 EXPOSE 80 443
