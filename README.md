@@ -1,4 +1,6 @@
-# ztops_web
+# uric_web
+##### node: v16.18.1
+##### npm: 9.5.1
 
 ## Project setup
 ```
